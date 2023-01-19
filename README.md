@@ -25,6 +25,7 @@
   3. Возращаемся в корень cd .. и прописываем ./manage.py collectstatic
 
 Настройка uwsgi
+<h5>
   1. Идем в дерикторию /etc/uwsgi/apps-enabled и создаем там файл my_app.ini с содержимым:
  <i><pre>
         [uwsgi]
@@ -45,4 +46,34 @@
         </pre>
   </i>
        
-  2.
+  2. Пишем команду service uwsgi restart
+</h5>
+
+Настройка Nginx
+<h5>
+  1. Идем в дерикторию /etc/nginx/conf.d и создаем там файл my_app.conf с содержимым:
+  <i>
+    <pre>
+    server {
+      listen 80;
+      server_tokens off;
+      server_name my_app my_app.domain.local;
+
+      location / {
+          include uwsgi_params;
+          uwsgi_pass unix:///run/uwsgi/app/sedova/socket;
+      }
+
+      location /static/ {
+          alias /var/www/my_app/static/;
+      }
+
+      location /media/ {
+          alias /var/www/my_app/media/;
+    }
+}
+    </pre>
+  </i>
+ </h5>
+
+  2. Пишем команду systemctl restart nginx
