@@ -1,4 +1,5 @@
 Инструкция по развертыванию проеекта:
+<h5>
   1. Устанавливаем приложение git командой sudo apt get git
   2. Создаём папку для хранения приложения mkdir Project и переходим в этот каталог командой cd/Project
   3. Последовательно вводим команды git init (Первоначальная натсрйокал  окального репазитория), git git remote add origin https://github.com/KefirNalivai/rTwz873 (Установление подключения к репазиторию), git pull https://github.com/KefirNalivai/rTwz873 (установка проекта в папку)
@@ -14,6 +15,34 @@
         
       Если команда ./manage.py выдаёт ошибку permision denied, тогда нужно добавлять команду python3. Пример: pyrhon3 manage.py migrate
       
-  5. 
-    
-Сервер развернут.
+  5. Запускаем сервер командой ./manage.py runserver.
+    </h5>
+
+
+Настройка статичных файлов.
+  1. В корне проекта создаём новые папки mkdir static и mkdir media
+  2. Далее идем в файл settings.py (Смотрите пункт 4 инструкции по развертыванию) и вписываем туда новые строки STATIC_ROOT = 'static' и MEDIA_ROOT = 'media'. Также можем изменить доменный хост в строке ALLOWED_HOSTS = [ 'www.example.com' ], если нужно.
+  3. Возращаемся в корень cd .. и прописываем ./manage.py collectstatic
+
+Настройка uwsgi
+  1. Идем в дерикторию /etc/uwsgi/apps-enabled и создаем там файл my_app.ini с содержимым:
+ <i><pre>
+        [uwsgi]
+        chdir = git/Project
+        env = DJANGO_SETTINGS_MODULE=project.settings.production
+        wsgi-file = testProject/wsgi.py
+        workers = 1max-requests=5000
+        plugins=python3
+        processes = 5
+        threads = 2
+        master = true
+        die-on-term = true
+        socket = sedova.sock
+        chmod-socket = 660
+        vacuum = true
+        uid = www-data
+        gui = www-data
+        </pre>
+  </i>
+       
+  2.
