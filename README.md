@@ -10,5 +10,10 @@
   ![image](https://user-images.githubusercontent.com/98163662/213194464-65b0f30d-d763-4711-9ef7-e9f0bb6c8f58.png)
   
    Нам нужно поменять лишь значения NAME (имя базы данных), USER (имя пользователя для поключения), PASSWORD (пароль пользователя), HOST (адресс на поключения к базе).
+   Далее вводим команды: ./manage.py makemigrations и ./manage.py migrate для установки в БД таблицы для хранения значеницй инпутов.
+        
+      Если команда ./manage.py выдаёт ошибку permision denied, тогда нужно добавлять команду python3. Пример: pyrhon3 manage.py migrate
+      
+  5. 
     
 Сервер развернут.
